@@ -38,4 +38,6 @@ $ php artisan migrate
 # Run the database migrations
 $ php artisan key:generate
 # Generate the application key
+$ php artisan pasport:install
+# Generate Passport keys and clients
 ```
