@@ -17,6 +17,7 @@ RUN apk add --no-cache \
     php${PHP_PACKAGES_VERSION}-mbstring \
     php${PHP_PACKAGES_VERSION}-openssl \
     php${PHP_PACKAGES_VERSION}-pdo \
+    php${PHP_PACKAGES_VERSION}-pdo_mysql \
     php${PHP_PACKAGES_VERSION}-session \
     php${PHP_PACKAGES_VERSION}-tokenizer \
     php${PHP_PACKAGES_VERSION}-xml
