@@ -29,5 +29,5 @@ $ docker compose exec workspace sh # Open a shell inside the workspace container
 $ composer install # Install the packages specified by composer.json
 $ php artisan migrate # Run the database migrations
 $ php artisan key:generate # Generate the application key
-$ php artisan passport:install # Generate Passport keys and clients
+$ php artisan jwt:secret # Generate the JWT secret
 ```
