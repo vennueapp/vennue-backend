@@ -1,0 +1,54 @@
+version: '3.8'
+networks:
+    backend:
+        driver: ${NETWORK_DRIVER}
+volumes:
+    mysql:
+        driver: ${VOLUME_DRIVER}
+services:
+    apache:
+        build:
+            args:
+                - APACHE_VERSION=${APACHE_VERSION}
+                - ALPINE_VERSION=${ALPINE_MAJOR_MINOR_VERSION}
+                - PHP_PACKAGES_VERSION=${PHP_PACKAGES_VERSION}
+                - WORKDIR=${CODE_PATH_APACHE}
+            context: ./docker/apache
+        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/apache:0.0.1
+        networks:
+            - backend
+        ports:
+            - "${APACHE_PORT}:80"
+        volumes:
+            - ${CODE_PATH_HOST}:${CODE_PATH_APACHE}
+    mysql:
+        build:
+            args:
+                - MYSQL_VERSION=${MYSQL_VERSION}
+            context: ./docker/mysql
+        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/mysql:0.0.1
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+        networks:
+            - backend
+        ports:
+            - "${MYSQL_PORT}:3306"
+        volumes:
+            - mysql:/var/lib/mysql
+    workspace:
+        build:
+            args:
+                - ALPINE_VERSION=${ALPINE_MAJOR_MINOR_VERSION}.${ALPINE_PATCH_VERSION}
+                - COMPOSER_VERSION=${COMPOSER_VERSION}
+                - PHP_PACKAGES_VERSION=${PHP_PACKAGES_VERSION}
+                - WORKDIR=${CODE_PATH_WORKSPACE}
+            context: ./docker/workspace
+        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/workspace:0.0.1
+        networks:
+            - backend
+        tty: true
+        volumes:
+            - ${CODE_PATH_HOST}:${CODE_PATH_WORKSPACE}

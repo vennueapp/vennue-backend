@@ -36,3 +36,6 @@ RUN addgroup -g 1000 apache && adduser -u 1000 -G apache -D apache
 ENV APACHE_RUN_USER=apache
 ENV APACHE_RUN_GROUP=apache
 USER apache
+
+# Start service
+CMD ["apachectl", "-D", "FOREGROUND", "-C", "PidFile /tmp/httpd.pid"]

@@ -1,0 +1,23 @@
+version: '3.8'
+networks:
+    backend:
+        driver: ${NETWORK_DRIVER}
+volumes:
+    mysql:
+        driver: ${VOLUME_DRIVER}
+    storage:
+        driver: ${VOLUME_DRIVER}
+services:
+    apache:
+        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/mysql:0.0.1
+        networks:
+            - backend
+        volumes:
+            - ${CODE_PATH_HOST}:${CODE_PATH_APACHE}
+            - storage:${CODE_PATH_APACHE}/storage
+    mysql:
+        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/mysql:0.0.1
+        networks:
+            - backend
+        volumes:
+            - mysql:/var/lib/mysql
