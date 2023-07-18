@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     php${PHP_PACKAGES_VERSION}-curl \
     php${PHP_PACKAGES_VERSION}-dom \
     php${PHP_PACKAGES_VERSION}-fileinfo \
+    php${PHP_PACKAGES_VERSION}-fpm \
     php${PHP_PACKAGES_VERSION}-mbstring \
     php${PHP_PACKAGES_VERSION}-openssl \
     php${PHP_PACKAGES_VERSION}-pdo \
@@ -31,11 +32,17 @@ COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 ARG WORKDIR
 WORKDIR ${WORKDIR}
 
-# Create and use new user to match host
+# Create new user to match host
 RUN addgroup -g 1000 apache && adduser -u 1000 -G apache -D apache
 ENV APACHE_RUN_USER=apache
 ENV APACHE_RUN_GROUP=apache
+
+# Update permissions for FPM logging
+RUN chown apache:apache /var/log/php81
+
+# Use new user
 USER apache
 
 # Start service
-CMD ["apachectl", "-D", "FOREGROUND", "-C", "PidFile /tmp/httpd.pid"]
+ENV fpmCommand=php-fpm${PHP_PACKAGES_VERSION}
+CMD ${fpmCommand} -D ; apachectl -D FOREGROUND -C "PidFile /tmp/httpd.pid"
