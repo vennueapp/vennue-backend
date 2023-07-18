@@ -14,14 +14,13 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
-        \Illuminate\Cookie\Middleware\EncryptCookies::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrustHosts::class,
         \Illuminate\Http\Middleware\HandleCors::class,
-        \Illuminate\Http\Middleware\TrustHosts::class,
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\EncryptCookies::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
     ];
 }
