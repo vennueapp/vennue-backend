@@ -21,7 +21,7 @@ class Authenticate extends Middleware
         $response = $next($request);
 
         // If the token was refreshed and the user is still authenticated (eg didn't logout)
-        if ($this->refreshed && $newToken = $this->getGuard()->getToken()) {
+        if ($this->refreshed && $newToken = AuthController::getGuard()->getToken()) {
             return $response->withCookie(AuthController::createJwtCookie($newToken));
         } else {
             return $response;
@@ -35,7 +35,7 @@ class Authenticate extends Middleware
     {
         if ($request->hasCookie(AuthController::JWT_COOKIE)) {
             try {
-                $this->getGuard()->setToken($this->getGuard()->setRequest($request)->refresh());
+                AuthController::getGuard()->setToken(AuthController::getGuard()->setRequest($request)->refresh());
                 $this->refreshed = true;
                 return;
             } catch (Exception $_) {
@@ -43,13 +43,5 @@ class Authenticate extends Middleware
             }
         }
         parent::unauthenticated($request, $guards);
-    }
-
-    /**
-     * @return \Tymon\JWTAuth\JWTGuard
-     */
-    private function getGuard()
-    {
-        return auth();
     }
 }

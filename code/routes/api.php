@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(Authenticate::class)
     ->controller(AuthController::class)
     ->group(function () {
+        Route::post('/register', 'register')->withoutMiddleware(Authenticate::class);
         Route::post('/login', 'login')->withoutMiddleware(Authenticate::class);
         Route::post('/logout', 'logout');
 });
