@@ -26,7 +26,8 @@ RUN apk add --no-cache \
 # Configure Apache
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
-# TODO Copy in hardened php.ini
+# Copy in php.ini to override defaults
+COPY ./php.ini /etc/php81/conf.d/php.ini
 
 # Set working directory
 ARG WORKDIR
