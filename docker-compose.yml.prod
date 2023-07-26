@@ -9,14 +9,14 @@ volumes:
         driver: ${VOLUME_DRIVER}
 services:
     apache:
-        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/mysql:0.0.1
+        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/apache:${APACHE_IMAGE_VERSION}
         networks:
             - backend
         volumes:
             - ${CODE_PATH_HOST}:${CODE_PATH_APACHE}
             - storage:${CODE_PATH_APACHE}/storage
     mysql:
-        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/mysql:0.0.1
+        image: ${COMPOSE_REGISTRY}/${COMPOSE_PROJECT_NAME}/mysql:${MYSQL_IMAGE_VERSION}
         networks:
             - backend
         volumes:
